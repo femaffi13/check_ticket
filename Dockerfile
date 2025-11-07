@@ -39,7 +39,7 @@ RUN wget -q -O /usr/share/keyrings/google-linux-signing-keyring.gpg https://dl.g
 
 # 🔧 Instalar una versión fija de ChromeDriver compatible (por ejemplo, v131)
 RUN CHROMEDRIVER_VERSION="142.0.7444.64" && \
-    wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
+    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
     unzip chromedriver-linux64.zip && \
     mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
