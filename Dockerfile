@@ -37,13 +37,17 @@ RUN wget -q -O /usr/share/keyrings/google-linux-signing-keyring.gpg https://dl.g
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# 🔧 Instalar una versión fija de ChromeDriver compatible (por ejemplo, v131)
+# Instalar ChromeDriver compatible con Chrome 142 (mirror alternativo si falla Google)
 RUN CHROMEDRIVER_VERSION="142.0.7444.64" && \
-    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" -O chromedriver.zip && \
-    unzip chromedriver.zip && \
+    set -e && \
+    echo "Descargando ChromeDriver ${CHROMEDRIVER_VERSION}..." && \
+    (wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" -O chromedriver.zip || \
+     wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" -O chromedriver.zip) && \
+    unzip -o chromedriver.zip || (echo "Fallo al descomprimir ChromeDriver, revisa la URL" && exit 1) && \
     mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
     rm -rf chromedriver.zip chromedriver-linux64
+
 
 # Instalar dependencias de Python
 COPY requirements.txt .
