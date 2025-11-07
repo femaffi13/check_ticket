@@ -3,14 +3,23 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 import time
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
 chrome_options = Options()
-service = Service(ChromeDriverManager().install()) # Configurar Selenium sin descargar el driver manualmente
-driver = webdriver.Chrome(service=service, options=chrome_options)
-driver.maximize_window() #Maximizar la ventana
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--window-size=1920x1080")
+chrome_options.binary_location = "/usr/bin/google-chrome"
+
+driver = webdriver.Chrome(options=chrome_options)
+
 
 #driver.get("https://www.allaccess.com.ar/event/acdc-venta-general") #Abrir la página
 driver.get("https://www.allaccess.com.ar/event/airbag") #Abrir la página
