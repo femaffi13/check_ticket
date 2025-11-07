@@ -39,11 +39,11 @@ RUN wget -q -O /usr/share/keyrings/google-linux-signing-keyring.gpg https://dl.g
 
 # 🔧 Instalar una versión fija de ChromeDriver compatible (por ejemplo, v131)
 RUN CHROMEDRIVER_VERSION="142.0.7444.64" && \
-    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
-    unzip chromedriver-linux64.zip && \
+    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" -O chromedriver.zip && \
+    unzip chromedriver.zip && \
     mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm -rf chromedriver-linux64.zip chromedriver-linux64
+    rm -rf chromedriver.zip chromedriver-linux64
 
 # Instalar dependencias de Python
 COPY requirements.txt .
