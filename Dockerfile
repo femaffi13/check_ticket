@@ -1,4 +1,4 @@
-# Imagen base
+# Imagen base con Python
 FROM python:3.11-slim
 
 # Evitar prompts interactivos
@@ -29,25 +29,21 @@ RUN apt-get update && apt-get install -y \
     libx11-xcb1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar Google Chrome (sin apt-key)
+# Instalar Google Chrome estable (desde el canal oficial)
 RUN wget -q -O /usr/share/keyrings/google-linux-signing-keyring.gpg https://dl.google.com/linux/linux_signing_key.pub && \
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-signing-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-signing-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+        > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Instalar ChromeDriver compatible
-RUN set -eux; \
-    CHROME_VERSION=$(google-chrome --version | sed 's/[^0-9.]//g' | cut -d. -f1); \
-    echo "Chrome major version: $CHROME_VERSION"; \
-    DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}" || echo ""); \
-    if [ -z "$DRIVER_VERSION" ]; then DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"); fi; \
-    echo "Usando ChromeDriver versión $DRIVER_VERSION"; \
-    wget -q "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"; \
-    unzip chromedriver_linux64.zip; \
-    mv chromedriver /usr/local/bin/chromedriver; \
-    chmod +x /usr/local/bin/chromedriver; \
-    rm chromedriver_linux64.zip
+# 🔧 Instalar una versión fija de ChromeDriver compatible (por ejemplo, v131)
+RUN CHROMEDRIVER_VERSION="131.0.6778.108" && \
+    wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
+    unzip chromedriver-linux64.zip && \
+    mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm -rf chromedriver-linux64.zip chromedriver-linux64
 
 # Instalar dependencias de Python
 COPY requirements.txt .
@@ -57,6 +53,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 WORKDIR /app
 
-# Comando de ejecución
+# Ejecutar tu script
 CMD ["python", "check.py"]
+
 
