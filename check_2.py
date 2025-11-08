@@ -41,7 +41,7 @@ def enviar_telegram(mensaje):
 try:
     soldout_div = driver.find_element(By.CLASS_NAME, "event-status.status-soldout")
     print("🎟️ El evento está agotado.")
-    enviar_telegram("Evento agotado ❌")
+    #enviar_telegram("Evento agotado ❌")
 except NoSuchElementException:
     print("✅ El evento NO está marcado como agotado.")
     enviar_telegram("AC⚡DC 🎉 https://www.allaccess.com.ar/event/acdc-venta-general")
