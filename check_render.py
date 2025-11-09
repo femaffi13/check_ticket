@@ -3,53 +3,57 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-#from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 import time
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--window-size=1920x1080")
-chrome_options.binary_location = "/usr/bin/google-chrome"
+chrome_options.add_argument("--window-size=1920,1080")
+service = Service(ChromeDriverManager().install()) # Configurar Selenium sin descargar el driver manualmente
+driver = webdriver.Chrome(service=service, options=chrome_options)
+driver.maximize_window() #Maximizar la ventana
 
-driver = webdriver.Chrome(options=chrome_options)
+driver.get("https://www.allaccess.com.ar/event/acdc-venta-general") 
+#driver.get("https://www.allaccess.com.ar/event/airbag") 
 
-
-#driver.get("https://www.allaccess.com.ar/event/acdc-venta-general") #Abrir la página
-driver.get("https://www.allaccess.com.ar/event/airbag") #Abrir la página
-
-time.sleep(3) #Esperar unos segundos para que cargue la página
+time.sleep(5) #Esperar unos segundos para que cargue la página
 
 def enviar_telegram(mensaje):
-    token = TOKEN
-    chat_id = CHAT_ID
-
+    token = '7785456335:AAFQCxNkifYm8teUrRgRYda8m5Mf4YV_gN0'
+    chat_id = '1396394457'
     url = f'https://api.telegram.org/bot{token}/sendMessage'
+    print(url)
+
     payload = {
         'chat_id': chat_id,
         'text': mensaje
     }
+
     try:
+        print("📡 Enviando mensaje a Telegram...")
         response = requests.post(url, data=payload)
+        print("🔢 Código de respuesta:", response.status_code)
+        print("📦 Respuesta:", response.text)
+
         if response.status_code == 200:
-            print("📲 Mensaje enviado por Telegram.")
+            print("✅ Mensaje enviado correctamente.")
         else:
             print("❌ Error al enviar mensaje:", response.text)
+
     except Exception as e:
         print("⚠️ Excepción al enviar Telegram:", e)
 
 try:
     soldout_div = driver.find_element(By.CLASS_NAME, "event-status.status-soldout")
-    print("🎟️ El evento está agotado.")
+    #print("🎟️ El evento está agotado.")
+    enviar_telegram("Evento agotado ❌")
 except NoSuchElementException:
     print("✅ El evento NO está marcado como agotado.")
-    enviar_telegram("🎉 ¡El evento ACDC NO está agotado! Revisá AllAccess.")
+    enviar_telegram("AC⚡DC 🎉 https://www.allaccess.com.ar/event/acdc-venta-general")
 
 # Cerrar el navegador
 driver.quit()

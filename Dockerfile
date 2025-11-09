@@ -66,4 +66,4 @@ ENV CHROME_BIN=/usr/bin/google-chrome
 ENV CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
 
 # Comando por defecto para ejecutar el script
-CMD ["python", "check_2.py"]
+CMD ["python", "check_render.py"]
