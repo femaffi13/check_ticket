@@ -30,7 +30,7 @@ def enviar_telegram(mensaje):
     token = TOKEN
     chat_id = CHAT_ID
     url = f'https://api.telegram.org/bot{token}/sendMessage'
-    print(url)
+    #print(url)
 
     payload = {
         'chat_id': chat_id,
@@ -38,10 +38,10 @@ def enviar_telegram(mensaje):
     }
 
     try:
-        print("📡 Enviando mensaje a Telegram...")
+        #print("📡 Enviando mensaje a Telegram...")
         response = requests.post(url, data=payload)
-        print("🔢 Código de respuesta:", response.status_code)
-        print("📦 Respuesta:", response.text)
+        #print("🔢 Código de respuesta:", response.status_code)
+        #print("📦 Respuesta:", response.text)
 
         if response.status_code == 200:
             print("✅ Mensaje enviado correctamente.")
@@ -53,8 +53,8 @@ def enviar_telegram(mensaje):
 
 try:
     soldout_div = driver.find_element(By.CLASS_NAME, "event-status.status-soldout")
-    #print("🎟️ El evento está agotado.")
-    enviar_telegram("Evento agotado ❌")
+    print("🎟️ El evento está agotado.")
+    #enviar_telegram("Evento agotado ❌")
 except NoSuchElementException:
     print("✅ El evento NO está marcado como agotado.")
     enviar_telegram("AC⚡DC 🎉 https://www.allaccess.com.ar/event/acdc-venta-general")
