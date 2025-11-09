@@ -25,18 +25,24 @@ time.sleep(5) #Esperar unos segundos para que cargue la página
 def enviar_telegram(mensaje):
     token = '7785456335:AAFQCxNkifYm8teUrRgRYda8m5Mf4YV_gN0'
     chat_id = '1396394457'
-
     url = f'https://api.telegram.org/bot{token}/sendMessage'
+
     payload = {
         'chat_id': chat_id,
         'text': mensaje
     }
+
     try:
+        print("📡 Enviando mensaje a Telegram...")
         response = requests.post(url, data=payload)
+        print("🔢 Código de respuesta:", response.status_code)
+        print("📦 Respuesta:", response.text)
+
         if response.status_code == 200:
-            print("📲 Mensaje enviado por Telegram.")
+            print("✅ Mensaje enviado correctamente.")
         else:
             print("❌ Error al enviar mensaje:", response.text)
+
     except Exception as e:
         print("⚠️ Excepción al enviar Telegram:", e)
 
