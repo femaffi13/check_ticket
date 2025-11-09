@@ -11,6 +11,8 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--window-size=1920,1080")
 service = Service(ChromeDriverManager().install()) # Configurar Selenium sin descargar el driver manualmente
 driver = webdriver.Chrome(service=service, options=chrome_options)
 driver.maximize_window() #Maximizar la ventana
