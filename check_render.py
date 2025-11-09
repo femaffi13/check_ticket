@@ -23,8 +23,8 @@ driver.get("https://www.allaccess.com.ar/event/acdc-venta-general")
 time.sleep(5) #Esperar unos segundos para que cargue la página
 
 def enviar_telegram(mensaje):
-    token = '7785456335:AAFQCxNkifYm8teUrRgRYda8m5Mf4YV_gN0'
-    chat_id = '1396394457'
+    token = TOKEN
+    chat_id = CHAT_ID
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     print(url)
 
