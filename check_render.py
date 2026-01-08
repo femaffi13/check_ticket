@@ -10,6 +10,7 @@ import os
 
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+CHAT_ID_DENISE = os.getenv("CHAT_ID_DENISE")
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -28,33 +29,43 @@ time.sleep(5) #Esperar unos segundos para que cargue la página
 
 def enviar_telegram(mensaje):
     token = TOKEN
-    chat_id = CHAT_ID
+    CHAT_IDS = [
+        CHAT_ID,
+        CHAT_ID_DENISE
+    ]
+    #chat_id = CHAT_ID
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     #print(url)
 
-    payload = {
-        'chat_id': chat_id,
-        'text': mensaje
-    }
+    # payload = {
+    #     'chat_id': chat_id,
+    #     'text': mensaje
+    # }
 
-    try:
-        #print("📡 Enviando mensaje a Telegram...")
-        response = requests.post(url, data=payload)
-        #print("🔢 Código de respuesta:", response.status_code)
-        #print("📦 Respuesta:", response.text)
+    for chat_id in CHAT_IDS:
+        payload = {
+            'chat_id': chat_id,
+            'text': mensaje
+        }
 
-        if response.status_code == 200:
-            print("✅ Mensaje enviado correctamente.")
-        else:
-            print("❌ Error al enviar mensaje:", response.text)
+        try:
+            #print("📡 Enviando mensaje a Telegram...")
+            response = requests.post(url, data=payload)
+            #print("🔢 Código de respuesta:", response.status_code)
+            #print("📦 Respuesta:", response.text)
 
-    except Exception as e:
-        print("⚠️ Excepción al enviar Telegram:", e)
+            if response.status_code == 200:
+                print("✅ Mensaje enviado correctamente.")
+            else:
+                print("❌ Error al enviar mensaje:", response.text)
+
+        except Exception as e:
+            print("⚠️ Excepción al enviar Telegram:", e)
 
 try:
     soldout_div = driver.find_element(By.CLASS_NAME, "event-status.status-soldout")
     print("🎟️ El evento está agotado.")
-    #enviar_telegram("Evento agotado ❌")
+    enviar_telegram("Evento agotado ❌")
 except NoSuchElementException:
     print("✅ El evento NO está marcado como agotado.")
     enviar_telegram("AC⚡DC 🎉 https://www.allaccess.com.ar/event/acdc-venta-general")
