@@ -9,11 +9,7 @@ import time
 import os
 
 TOKEN = os.getenv("TOKEN")
-TOKEN = "7785456335:AAFQCxNkifYm8teUrRgRYda8m5Mf4YV_gN0"
-#CHAT_ID = os.getenv("CHAT_ID")
-#CHAT_ID_DENISE = os.getenv("CHAT_ID_DENISE")
-
-CHAT_ID = "-1003841480108"
+CHAT_ID = os.getenv("CHAT_ID")
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -36,7 +32,7 @@ def enviar_telegram(mensaje):
         CHAT_ID,
         #CHAT_ID_DENISE
     ]
-    #chat_id = CHAT_ID
+    
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     #print(url)
 
