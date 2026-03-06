@@ -67,7 +67,7 @@ try:
     #enviar_telegram("Evento agotado ❌")
 except NoSuchElementException:
     print("✅ El evento NO está marcado como agotado.")
-    enviar_telegram("AC⚡DC 🎉 https://www.allaccess.com.ar/event/acdc-venta-general")
+    enviar_telegram("Entradas disponibles: https://www.allaccess.com.ar/event/acdc-venta-general")
 
 # Cerrar el navegador
 driver.quit()
